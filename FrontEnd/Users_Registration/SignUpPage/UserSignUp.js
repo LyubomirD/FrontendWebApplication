@@ -7,35 +7,32 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const userDate = {
+    const userData = {
         username: username,
         email: email,
         password: password
     };
 
-    fetch('http://localhost:5000/usersRegistration/post', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userDate)
+    axios({
+        method: "post",
+        url: "http://localhost:5000/usersRegistration/post",
+        data: JSON.stringify(userData),
+        headers: { "Content-Type": "application/json" }
     })
         .then(response => {
-            if (response.ok) {
-                return response.json();
+            if (response.status === 200) {
+                return response.data;
             } else {
-                throw new Error('Login failed. Invalid credentials.');
+                throw new Error('Sign up failed.');
             }
         })
         .then(data => {
-            console.log('Login successful!', data);
+            console.log('Sign up successful!', data);
             window.location.href = '../LoginPage/UserLoginPage.html';
         })
-
         .catch(error => {
             console.error('Error:', error);
             const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = 'User already exists!';
+            errorMessage.textContent = 'User registration failed!';
         });
 });

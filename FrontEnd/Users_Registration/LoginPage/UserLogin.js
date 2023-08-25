@@ -6,14 +6,11 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
     const email = formData.get('email');
     const password = formData.get('password');
 
-    fetch(`http://localhost:5000/usersRegistration/get/${encodeURIComponent(email)}/${encodeURIComponent(password)}`, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    fetch(`http://localhost:5000/usersRegistration/get/${email}/${password}`, {
+        method: 'GET'
     })
         .then(response => {
+            console.log(response.statusText + " and " + response.status);
             if (response.ok) {
                 return response.json();
             } else {
@@ -22,7 +19,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         })
         .then(data => {
             console.log('Login successful!', data);
-            window.location.href = '..FrontendWebApplication/FrontEnd/nextPage.html';
+            window.location.href = 'FrontendWebApplication/FrontEnd/nextPage.html';
         })
         .catch(error => {
             console.error('Error:', error);
