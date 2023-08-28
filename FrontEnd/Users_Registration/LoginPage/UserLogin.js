@@ -6,8 +6,16 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
     const email = formData.get('email');
     const password = formData.get('password');
 
-    fetch(`http://localhost:5000/usersRegistration/get/${email}/${password}`, {
-        method: 'GET'
+    const userData = {
+        email: email,
+        password: password
+    };
+
+    axios({
+        method: "get",
+        url: "http://localhost:5000/usersRegistration/get",
+        data: JSON.stringify(userData),
+        headers: { "Content-Type": "application/json" }
     })
         .then(response => {
             console.log(response.statusText + " and " + response.status);
@@ -19,7 +27,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         })
         .then(data => {
             console.log('Login successful!', data);
-            window.location.href = 'FrontendWebApplication/FrontEnd/nextPage.html';
+            window.location.href = '..FrontendWebApplication/FrontEnd/nextPage.html';
         })
         .catch(error => {
             console.error('Error:', error);
