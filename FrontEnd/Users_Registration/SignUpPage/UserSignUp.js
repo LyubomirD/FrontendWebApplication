@@ -15,7 +15,7 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
 
     axios({
         method: "post",
-        url: "http://localhost:5000/usersRegistration/post",
+        url: "http://localhost:5000/usersRegistration/sign-up",
         data: JSON.stringify(userData),
         headers: { "Content-Type": "application/json" }
     })

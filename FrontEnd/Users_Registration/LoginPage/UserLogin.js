@@ -1,3 +1,4 @@
+// Now for login I use Basic Auth and not a JSON payload
 document.getElementById("loginForm").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -6,28 +7,23 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const userData = {
-        email: email,
-        password: password
-    };
+    const credentials = btoa(email + ':' + password); // Base64 encode username:password
 
     axios({
         method: "get",
-        url: "http://localhost:5000/usersRegistration/get",
-        data: JSON.stringify(userData),
-        headers: { "Content-Type": "application/json" }
+        url: "http://localhost:5000/usersRegistration/login",
+        headers: {
+            "Authorization": "Basic " + credentials
+        }
     })
         .then(response => {
             console.log(response.statusText + " and " + response.status);
             if (response.ok) {
-                return response.json();
+                console.log('Login successful!');
+                window.location.href = '..FrontendWebApplication/FrontEnd/nextPage.html';
             } else {
                 throw new Error('Login failed. Invalid credentials.');
             }
-        })
-        .then(data => {
-            console.log('Login successful!', data);
-            window.location.href = '..FrontendWebApplication/FrontEnd/nextPage.html';
         })
         .catch(error => {
             console.error('Error:', error);
